@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>Basic Unit Test</Title>
+            <Author>Joe Arrowood</Author>
+            <Description>Basic Unit Test with test data.</Description>
+            <Shortcut>jwtest</Shortcut>
+        </Header>
+        <Snippet>
+            <Code Language="CSharp">
+                <![CDATA[
+
+                        // ------------------------------------------------
+                        
+                        [TestMethod]
+                        [DataRow("")]
+                        public void $Method$_$Class$(string expected)
+                        {
+                            // -------
+                            // Arrange
+                        
+                            // ----------
+                            // Mock Setup
+                        
+                            // ---
+                            // Act
+                        
+                            // ------
+                            // Assert
+                        }]]>
+            </Code>
+            <Declarations>
+                <Literal>
+                    <ID>Method</ID>
+                    <Default>Method</Default>
+                    <ToolTip>The Method being tested</ToolTip>
+                </Literal>
+                <Literal>
+                    <ID>Class</ID>
+                    <Default>Class</Default>
+                    <ToolTip>The Class which is the System Under Test (SUT)</ToolTip>
+                </Literal>
+            </Declarations>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

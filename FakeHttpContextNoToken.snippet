@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Fake HTTP Context without a Token</Title>
+      <Shortcut>jwctx</Shortcut>
+      <Description>Code snippet for a Fake HTTP Context without a Token</Description>
+      <Author>JoeWare</Author>
+    </Header>
+    <Snippet>
+        <Imports>
+            <Import>
+                <Namespace>System.IO</Namespace>
+            </Import>
+            <Import>
+                <Namespace>System.Web</Namespace>
+            </Import>
+            <Import>
+                <Namespace>System.Reflection</Namespace>
+            </Import>
+            <Import>
+                <Namespace>System.Web.SessionState</Namespace>
+            </Import>
+            <Import>
+                <Namespace>Microsoft.VisualStudio.TestTools.UnitTesting</Namespace>
+            </Import>
+        </Imports>
+        <Declarations>
+            <Literal>
+                <ID>URL</ID>
+                <ToolTip>HTTP Request Origination.</ToolTip>
+                <Default>portaldv.nt.lab.com</Default>
+            </Literal>
+            <Literal Editable="false">
+                <ID>TestMethod</ID>
+                <Function>SimpleTypeName(global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod)</Function>
+            </Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[// ------------------------------------------------
+        /// <summary>
+        ///     Fake HTTP Context for testing
+        /// </summary>
+
+        private HttpContext FakeHttpContext()
+        {
+            var stringWriter = new StringWriter();
+            var httpResponce = new HttpResponse(stringWriter);
+            var httpRequest = new HttpRequest("", "http://$URL$", "");
+            var httpContext = new HttpContext(httpRequest, httpResponce);
+
+            var sessionContainer = new HttpSessionStateContainer("id",
+                                                                 new SessionStateItemCollection(),
+                                                                 new HttpStaticObjectsCollection(),
+                                                                 10,
+                                                                 true,
+                                                                 HttpCookieMode.AutoDetect,
+                                                                 SessionStateMode.InProc,
+                                                                 false);
+
+            httpContext.Items["AspSession"] = typeof(HttpSessionState).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance,
+                                                                                      null,
+                                                                                      CallingConventions.Standard,
+                                                                                      new[] { typeof(HttpSessionStateContainer) },
+                                                                                      null).Invoke(new object[] { sessionContainer });
+            httpContext.ApplicationInstance = new HttpApplication();
+
+            return httpContext;
+        }]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
